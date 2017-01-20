@@ -17,10 +17,14 @@ var detectNetwork = function(cardNumber) {
     return 'Diner\'s Club';
   } else if ((prefix === '34' || prefix === '37') && cardNumber.length === 15) {
     return 'American Express';
+  } else if (prefix[0] === '4' && (cardNumber.length === 13 ||
+    cardNumber.length === 16 || cardNumber.length === 19)) {
+    return 'Visa';
+  } else if ((prefix === '51' || prefix === '52' || prefix === '53' ||
+    prefix === '54' || prefix === '55') && cardNumber.length === 16) {
+    return 'MasterCard';
   } else {
-    return 'Not a valid Card Number';
+    return 'Not a valid card number';
   }
   // Once you've read this, go ahead and try to implement this function, then return to the console.
 };
-
-console.log(detectNetwork('38123456789012'));
