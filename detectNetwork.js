@@ -7,24 +7,51 @@
 //   1. The first few numbers (called the prefix)
 //   2. The number of digits in the number (called the length)
 
+// HELPER FUNCTIONS
+function checkPrefix(prefixes, cardNumber) {
+  for (var i = 0; i < prefixes.length; i++) {
+    if (cardNumber.indexOf(prefixes[i]) === 0) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function checkLength(lengths, cardNumber){
+  for (var i = 0; i < lengths.length; i++){
+    if (lengths[i] === cardNumber.length){
+      return true;
+    }
+  }
+  return false;
+}
+
+// MAIN FUNCTION
 var detectNetwork = function(cardNumber) {
   // Note: `cardNumber` will always be a string
   // The Diner's Club network always starts with a 38 or 39 and is 14 digits long
   // The American Express network always starts with a 34 or 37 and is 15 digits long
   var prefix = cardNumber.slice(0, 2);
 
-  if ((prefix === '38' || prefix === '39') && cardNumber.length === 14) {
-    return 'Diner\'s Club';
-  } else if ((prefix === '34' || prefix === '37') && cardNumber.length === 15) {
-    return 'American Express';
-  } else if (prefix[0] === '4' && (cardNumber.length === 13 ||
-    cardNumber.length === 16 || cardNumber.length === 19)) {
-    return 'Visa';
-  } else if ((prefix === '51' || prefix === '52' || prefix === '53' ||
-    prefix === '54' || prefix === '55') && cardNumber.length === 16) {
-    return 'MasterCard';
-  } else {
-    return 'Not a valid card number';
+  var network = [
+    {name: 'Diner\'s Club', prefixes: ['38', '39'],lengths: [14]},
+    {name: 'American Express', prefixes: ['34', '37'],lengths: [15]},
+    {name: 'Visa', prefixes: ['4'],lengths: [13, 16, 19]},
+    {name: 'MasterCard', prefixes: ['51', '52', '53', '54', '55'],lengths: [16]},
+    {name: 'Discover', prefixes: ['6011', '644', '645', '646', '647', '648', '649'],lengths: [16, 19]},
+    {name: 'Maestro', prefixes: ['5018', '5020', '5038', '6034'],lengths: [12, 13,14,15,16,17,18,19]}
+  ];
+
+  for (var i = 0; i < network.length; i++) {
+    var card = network[i]['name'];
+    var prefixes = network[i]['prefixes'];
+    var lengths = network[i]['lengths'];
+    var okLength = checkLength(lengths, cardNumber);
+    var okPrefix = checkPrefix(prefixes, cardNumber);
+
+    if (okLength && okPrefix) {
+      return card;
+    }
   }
-  // Once you've read this, go ahead and try to implement this function, then return to the console.
+  return 'invalid number'
 };
