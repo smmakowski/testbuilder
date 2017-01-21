@@ -36,12 +36,22 @@ var detectNetwork = function(cardNumber) {
   var network = [
     {name: 'Diner\'s Club', prefixes: ['38', '39'],lengths: [14]},
     {name: 'American Express', prefixes: ['34', '37'],lengths: [15]},
-    {name: 'Visa', prefixes: ['4'],lengths: [13, 16, 19]},
     {name: 'MasterCard', prefixes: ['51', '52', '53', '54', '55'],lengths: [16]},
     {name: 'Discover', prefixes: ['6011', '644', '645', '646', '647', '648', '649','65'],lengths: [16, 19]},
-    {name: 'Maestro', prefixes: ['5018', '5020', '5038', '6304'],lengths: [12, 13,14,15,16,17,18,19]}
+    {name: 'Maestro', prefixes: ['5018', '5020', '5038', '6304'],lengths: [12, 13,14,15,16,17,18,19]},
+    {name: 'China UnionPay', prefixes: ['624', '625', '626'], lengths: [16,17,18,19]},
+    {name: 'Switch', prefixes: ['4903', '4905', '4911', '4936'], lengths: [16,17,18,19]},
+    {name: 'Visa', prefixes: ['4'],lengths: [13, 16, 19]} // visa is last to avoid any problems with switch
   ];
+  // Populates China UnionPay prefixes
+  for (var i = 622126; i <= 622925; i++){
+    network[5].prefixes.push(String(i));
+  }
+  for (var i = 6282; i <= 6288; i++){
+    network[5].prefixes.push(String(i));
+  }
 
+  // Searches for Valid Network
   for (var i = 0; i < network.length; i++) {
     var card = network[i]['name'];
     var prefixes = network[i]['prefixes'];
@@ -53,5 +63,8 @@ var detectNetwork = function(cardNumber) {
       return card;
     }
   }
-  return 'invalid number'
+  // Returns string if invalid
+  return 'Number not in valid Network'
 };
+
+console.log(detectNetwork('4900022222222222'));
