@@ -200,7 +200,7 @@ describe('Maestro', function() {
     var otherNums = '';
     var i = 1;
     while (i <= len - 4){
-      otherNums += '1';
+      otherNums += '1'; 
       i++;
     }
 

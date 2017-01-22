@@ -62,6 +62,6 @@ var detectNetwork = function(cardNumber) {
       return card;
     }
   }
-  
+
   return 'Number not in valid Network'
 };
